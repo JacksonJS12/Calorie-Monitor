@@ -17,6 +17,7 @@ namespace CaloryMonitor.Controllers
             _context = context;
         }
 
+        //Този метод показва View със всички записи на BMI на потребителя
         public async Task<IActionResult> All()
         {
             var userId = GetUserId();
@@ -32,11 +33,13 @@ namespace CaloryMonitor.Controllers
             return View(records);
         }
 
+        //Този метод показва View за добавяне на нов BMI запис
         public IActionResult Add()
         {
             return View(new BmiRecord { Date = DateTime.Today });
         }
 
+        //Този метод добавя BMI запис
         [HttpPost]
         public async Task<IActionResult> Add(BmiRecord record)
         {
@@ -47,6 +50,7 @@ namespace CaloryMonitor.Controllers
             return RedirectToAction("All");
         }
 
+        //Този метод показва View за редактиране на BMI запис
         public async Task<IActionResult> Edit(int id)
         {
             var record = await _context.BMIRecords.FindAsync(id);
@@ -56,6 +60,7 @@ namespace CaloryMonitor.Controllers
             return View(record);
         }
 
+        //Този метод редактира BMI запис
         [HttpPost]
         public async Task<IActionResult> Edit(BmiRecord record)
         {
@@ -71,6 +76,7 @@ namespace CaloryMonitor.Controllers
             return RedirectToAction("All");
         }
 
+        //Този метод изтрива BMI запис
         public async Task<IActionResult> Delete(int id)
         {
             var record = await _context.BMIRecords.FindAsync(id);

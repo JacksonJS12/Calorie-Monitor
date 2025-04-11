@@ -21,7 +21,7 @@ namespace CaloryMonitor.Controllers
 
         public async Task<IActionResult> Index()
         {
-            // Ако потребителят не е логнат, просто зареждаме изгледа
+            // Ако потребителят не е логнат, просто зареждаме View
             if (!User.Identity.IsAuthenticated)
             {
                 return View();
@@ -44,15 +44,9 @@ namespace CaloryMonitor.Controllers
                 totalCalories = menu.Items.Sum(i => i.Food.CaloriesPer100g * i.QuantityGrams / 100);
             }
 
-            // Предаваме калориите във ViewBag, ViewModel, или както предпочиташ
+            // Предаваме калориите във ViewBag.
             ViewBag.TotalCaloriesToday = totalCalories;
 
-            return View();
-        }
-
-
-        public IActionResult Privacy()
-        {
             return View();
         }
 

@@ -1,31 +1,31 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+	ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center">
-    @if (User.Identity.IsAuthenticated)
-    {
-        <div class="card shadow mt-4" style="max-width: 600px; margin: 0 auto;">
-            <div class="card-body">
-                <h2 class="card-title">Добре дошъл, @User.Identity.Name!</h2>
-                <p class="card-text">
-                    Изконсумирани калории днес:
-                    <strong>@(ViewBag.TotalCaloriesToday ?? 0)</strong> kcal
-                </p>
-                <a class="btn btn-primary" asp-controller="Menu" asp-action="AddToMenu">
-                    Добави ново хранене
-                </a>
-                <a class="btn btn-success" asp-controller="Menu" asp-action="MyMenus">
-                    Виж всички менюта
-                </a>
-            </div>
-        </div>
-    }
-    else
-    {
-        <h1>Добре дошли в CaloryMonitor!</h1>
-        <p>Тук можете да проследявате дневния си калориен прием...</p>
-        <a class="btn btn-success mt-3" asp-controller="Account" asp-action="Register">Регистрация</a>
-        <a class="btn btn-warning mt-3" asp-controller="Account" asp-action="Login">Вход</a>
-    }
+	@if (User.Identity.IsAuthenticated)
+	{
+		<div class="card shadow mt-4" style="max-width: 600px; margin: 0 auto;">
+			<div class="card-body">
+				<h2 class="card-title">Добре дошъл, @User.Identity.Name!</h2>
+				<p class="card-text">
+					Изконсумирани калории днес:
+					<strong>@(ViewBag.TotalCaloriesToday ?? 0)</strong> kcal
+				</p>
+				<a class="btn btn-primary" asp-controller="Menu" asp-action="AddToMenu">
+					Добави ново хранене
+				</a>
+				<a class="btn btn-success" asp-controller="Menu" asp-action="MyMenus">
+					Виж всички менюта
+				</a>
+			</div>
+		</div>
+	}
+	else
+	{
+		<h1>Добре дошли в CaloryMonitor!</h1>
+		<p>Тук можете да проследявате дневния си калориен прием...</p>
+		<a class="btn btn-success mt-3" asp-area="Identity" asp-page="/Account/Register">Регистрация</a>
+		<a class="btn btn-warning mt-3" asp-area="Identity" asp-page="/Account/Login">Вход</a>
+	}
 </div>

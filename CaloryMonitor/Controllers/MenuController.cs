@@ -16,7 +16,7 @@ namespace CaloryMonitor.Controllers
             _context = context;
         }
 
-
+        //Този метод показва View за добавяне на рподукт към менюто
         [HttpGet]
         public async Task<IActionResult> AddToMenu()
         {
@@ -29,7 +29,7 @@ namespace CaloryMonitor.Controllers
 
             return View(viewModel);
         }
-
+        //Този метод добавя продукта към даденото меню
         [HttpPost]
         public async Task<IActionResult> AddToMenu(AddToMenuViewModel model)
         {
@@ -65,9 +65,9 @@ namespace CaloryMonitor.Controllers
             _context.MenuItems.Add(menuItem);
             await _context.SaveChangesAsync();
 
-            TempData["Success"] = "Храната е добавена към менюто ти за днес!";
             return RedirectToAction("MyMenus");
         }
+        //Този метод показва View със всички менюта
         public async Task<IActionResult> MyMenus()
         {
             var userId = GetUserId();
