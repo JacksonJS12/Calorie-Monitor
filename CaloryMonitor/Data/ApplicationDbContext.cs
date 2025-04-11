@@ -9,5 +9,9 @@ namespace CaloryMonitor.Data
             : base(options)
         {
         }
+        public DbSet<Food> Foods { get; set; }
+        public DbSet<MenuItem> MenuItems { get; set; }
+        public DbSet<Menu> Menus { get; set; }
+        public DbSet<BmiRecord> BMIRecords { get; set; }
     }
 }
