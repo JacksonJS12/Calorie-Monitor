@@ -1,0 +1,21 @@
+﻿@using CaloryMonitor.ViewModels
+@model AddToMenuViewModel
+
+<h2>Добави храна към менюто си за днес</h2>
+
+<form asp-action="AddToMenu" method="post">
+    <div class="form-group">
+        <label>Избери храна</label>
+        <select asp-for="SelectedFoodId" class="form-control" asp-items="@(new SelectList(Model.AvailableFoods, "Id", "Name"))">
+            <option value="">-- Избери храна --</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>Грамаж</label>
+        <input asp-for="QuantityGrams" class="form-control" />
+        <span asp-validation-for="QuantityGrams" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary mt-2">Добави</button>
+</form>
