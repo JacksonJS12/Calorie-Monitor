@@ -32,11 +32,18 @@ namespace CaloryMonitor
             );
 
             var app = builder.Build();
+
             using (var scope = app.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
                 SeedData.Initialize(services);
             }
+            using (var scope = app.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+                SeedData.SeedAdminUserAsync(services).GetAwaiter().GetResult();
+            }
+
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())

@@ -4,24 +4,24 @@
 
 <form asp-action="Add" method="post">
     <div class="form-group">
-        <label asp-for="Date"></label>
+        <label>Дата</label>
         <input asp-for="Date" type="date" class="form-control" />
         <span asp-validation-for="Date" class="text-danger"></span>
     </div>
 
     <div class="form-group">
-        <label asp-for="WeightKg"></label>
+        <label>Тежест в килорграми (Пример: 81)</label>
         <input asp-for="WeightKg" class="form-control" />
         <span asp-validation-for="WeightKg" class="text-danger"></span>
     </div>
 
     <div class="form-group">
-        <label asp-for="HeightMeters"></label>
+        <label>Височина в метри (Пример: 1.79)</label>
         <input asp-for="HeightMeters" class="form-control" />
         <span asp-validation-for="HeightMeters" class="text-danger"></span>
     </div>
 
-    <button type="submit" class="btn btn-success mt-3">Добави</button>
+    <button type="submit" class="btn btn-primary mt-3">Добави</button>
 </form>
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

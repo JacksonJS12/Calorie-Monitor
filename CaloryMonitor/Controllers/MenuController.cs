@@ -86,9 +86,13 @@ namespace CaloryMonitor.Controllers
                 {
                     FoodName = i.Food.Name,
                     QuantityGrams = i.QuantityGrams,
-                    Calories = (i.Food.CaloriesPer100g * i.QuantityGrams) / 100
+                    Calories = i.Food.CaloriesPer100g * i.QuantityGrams / 100,
+                    Proteins = i.Food.ProteinsPer100g * i.QuantityGrams / 100,
+                    Carbs = i.Food.CarbsPer100g * i.QuantityGrams / 100,
+                    Fats = i.Food.FatsPer100g * i.QuantityGrams / 100
                 }).ToList()
             }).ToList();
+
 
             return View(viewModel);
         }

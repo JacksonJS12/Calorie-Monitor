@@ -1,0 +1,42 @@
+﻿@model Food
+
+<h2>Редактирай храна</h2>
+
+<form asp-action="Create" method="post">
+	<div class="form-group">
+		<label>Име на храната</label>
+		<input asp-for="Name" class="form-control" />
+		<span asp-validation-for="Name" class="text-danger" />
+	</div>
+
+	<div class="form-group">
+		<label>Калории на 100 гр.</label>
+		<input asp-for="CaloriesPer100g" class="form-control" />
+		<span asp-validation-for="CaloriesPer100g" class="text-danger" />
+	</div>
+
+	<div class="form-group">
+		<label>Протеини на 100 гр.</label>
+		<input asp-for="ProteinsPer100g" class="form-control" />
+		<span asp-validation-for="ProteinsPer100g" class="text-danger" />
+	</div>
+
+	<div class="form-group">
+		<label>Въглехидрати на 100 гр.</label>
+		<input asp-for="CarbsPer100g" class="form-control" />
+		<span asp-validation-for="CarbsPer100g" class="text-danger" />
+	</div>
+
+	<div class="form-group">
+		<label>Мазнини на 100 гр.</label>
+		<input asp-for="FatsPer100g" class="form-control" />
+		<span asp-validation-for="FatsPer100g" class="text-danger" />
+	</div>
+
+	<div class="form-group">
+		<label asp-for="Status"></label>
+		<select asp-for="Status" asp-items="Html.GetEnumSelectList<FoodStatus>()" class="form-control"></select>
+	</div>
+
+	<button type="submit" class="btn btn-primary mt-3">Запази промени</button>
+</form>
