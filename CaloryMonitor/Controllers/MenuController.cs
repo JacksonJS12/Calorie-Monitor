@@ -33,15 +33,25 @@ namespace CaloryMonitor.Controllers
         [HttpPost]
         public async Task<IActionResult> AddToMenu(AddToMenuViewModel model)
         {
-            if (!ModelState.IsValid)
+            // Дефинираме речник за преобразуване
+            var timeMapping = new Dictionary<string, string>
             {
+                { "Сутрин", "Morning" },
+                { "Обед", "Afternoon" },
+                { "Вечер", "Evening" }
+            };
+
+            // Преобразуваме стойността от dropdown (на български) към английски
+            string englishTime;
+            if (!timeMapping.TryGetValue(model.TimeOfTheDay, out englishTime))
+            {
+                ModelState.AddModelError("TimeOfTheDay", "Невалидна секция");
                 model.AvailableFoods = await _context.Foods.ToListAsync();
                 return View(model);
             }
 
-            var userId = GetUserId();
-
-            // Намираме или създаваме меню за днешната дата
+            // Намираме потребителя и/или менюто за днешната дата
+            var userId = GetUserId(); 
             var today = DateTime.Today;
             var menu = await _context.Menus
                 .Include(m => m.Items)
@@ -54,19 +64,22 @@ namespace CaloryMonitor.Controllers
                 await _context.SaveChangesAsync();
             }
 
-            // Добавяме избраната храна
+            // Създаваме MenuItem, като използваме английската стойност
             var menuItem = new MenuItem
             {
                 MenuId = menu.Id,
                 FoodId = model.SelectedFoodId,
-                QuantityGrams = model.QuantityGrams
+                QuantityGrams = model.QuantityGrams,
+                TimeOfTheDay = englishTime
             };
 
             _context.MenuItems.Add(menuItem);
             await _context.SaveChangesAsync();
 
-            return RedirectToAction("MyMenus");
+            TempData["Success"] = "Храната е добавена към менюто ти за днес!";
+            return RedirectToAction(nameof(MyMenus));
         }
+
         //Този метод показва View със всички менюта
         public async Task<IActionResult> MyMenus()
         {
@@ -89,7 +102,8 @@ namespace CaloryMonitor.Controllers
                     Calories = i.Food.CaloriesPer100g * i.QuantityGrams / 100,
                     Proteins = i.Food.ProteinsPer100g * i.QuantityGrams / 100,
                     Carbs = i.Food.CarbsPer100g * i.QuantityGrams / 100,
-                    Fats = i.Food.FatsPer100g * i.QuantityGrams / 100
+                    Fats = i.Food.FatsPer100g * i.QuantityGrams / 100,
+                    TimeOfTheDay = i.TimeOfTheDay
                 }).ToList()
             }).ToList();
 
