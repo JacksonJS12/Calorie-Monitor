@@ -3,76 +3,82 @@
 <h2>BMI Записи</h2>
 
 <a class="btn btn-success mb-3" asp-action="Add">➕ Добави запис</a>
+@if (Model.Count == 0)
+{
+	<p>Нямате добавени записи на BMI</p>
+}
+else
+{
+	<table class="table table-bordered">
+		<thead>
+			<tr>
+				<th>Дата</th>
+				<th>Тегло (kg)</th>
+				<th>Ръст (m)</th>
+				<th>BMI</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var record in Model)
+			{
+				<tr>
+					<td>@record.Date.ToShortDateString()</td>
+					<td>@record.WeightKg</td>
+					<td>@record.HeightMeters</td>
+					<td>@record.Bmi.ToString("F2")</td>
+					<td>
+						<a asp-action="Edit" asp-route-id="@record.Id" class="btn btn-warning btn-sm">Редактирай</a>
+						<a asp-action="Delete" asp-route-id="@record.Id" class="btn btn-danger btn-sm">Изтрий</a>
+					</td>
+				</tr>
+			}
+		</tbody>
+		<hr />
+		<h4>Графика на BMI по дати</h4>
+		<canvas id="bmiChart" width="400" height="150"></canvas>
 
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>Дата</th>
-            <th>Тегло (kg)</th>
-            <th>Ръст (m)</th>
-            <th>BMI</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var record in Model)
-        {
-            <tr>
-                <td>@record.Date.ToShortDateString()</td>
-                <td>@record.WeightKg</td>
-                <td>@record.HeightMeters</td>
-                <td>@record.Bmi.ToString("F2")</td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@record.Id" class="btn btn-warning btn-sm">Редактирай</a>
-                    <a asp-action="Delete" asp-route-id="@record.Id" class="btn btn-danger btn-sm">Изтрий</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-    <hr />
-    <h4>Графика на BMI по дати</h4>
-    <canvas id="bmiChart" width="400" height="150"></canvas>
-
-</table>
+	</table>
+}
 @section Scripts {
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
-        const ctx = document.getElementById('bmiChart').getContext('2d');
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	<script>
+		const ctx = document.getElementById('bmiChart').getContext('2d');
 
-        const bmiChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: @Html.Raw(Json.Serialize(ViewBag.BmiLabels)),
-                datasets: [{
-                    label: 'BMI стойност',
-                    data: @Html.Raw(Json.Serialize(ViewBag.BmiValues)),
-                    fill: false,
-                    tension: 0.2,
-                    borderColor: 'rgba(75, 192, 192, 1)',
-                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                    pointBackgroundColor: 'rgba(75, 192, 192, 1)',
-                    pointRadius: 5
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        min: 15,
-                        max: 40,
-                        title: {
-                            display: true,
-                            text: 'BMI'
-                        }
-                    },
-                    x: {
-                        title: {
-                            display: true,
-                            text: 'Дата'
-                        }
-                    }
-                }
-            }
-        });
-    </script>
+		const bmiChart = new Chart(ctx, {
+			type: 'line',
+			data: {
+				labels: @Html.Raw(Json.Serialize(ViewBag.BmiLabels)),
+				datasets: [{
+					label: 'BMI стойност',
+					data: @Html.Raw(Json.Serialize(ViewBag.BmiValues)),
+					fill: false,
+					tension: 0.2,
+					borderColor: 'rgba(75, 192, 192, 1)',
+					backgroundColor: 'rgba(75, 192, 192, 0.2)',
+					pointBackgroundColor: 'rgba(75, 192, 192, 1)',
+					pointRadius: 5
+				}]
+			},
+			options: {
+				scales: {
+					y: {
+						min: 15,
+						max: 40,
+						title: {
+							display: true,
+							text: 'BMI'
+						}
+					},
+					x: {
+						title: {
+							display: true,
+							text: 'Дата'
+						}
+					}
+				}
+			}
+		});
+	</script>
 }
 

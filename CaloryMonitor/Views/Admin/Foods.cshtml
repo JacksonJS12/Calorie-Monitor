@@ -1,0 +1,47 @@
+﻿@model List<Food>
+
+<h2 class="mb-4">Админ панел – Храни</h2>
+
+<div class="mb-3">
+    <a asp-action="Create" class="btn btn-success">
+        ➕ Добави нова храна
+    </a>
+</div>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        @TempData["Success"]
+    </div>
+}
+
+<table class="table table-striped table-hover">
+    <thead class="table-dark">
+        <tr>
+            <th>Име</th>
+            <th>Калории/100g</th>
+            <th>Протеини/100g</th>
+            <th>Въглехидрати/100g</th>
+            <th>Мазнини/100g</th>
+            <th>Статус</th>
+            <th>Действия</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var food in Model)
+        {
+            <tr>
+                <td>@food.Name</td>
+                <td>@food.CaloriesPer100g</td>
+                <td>@food.ProteinsPer100g</td>
+                <td>@food.CarbsPer100g</td>
+                <td>@food.FatsPer100g</td>
+                <td>@food.Status</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@food.Id" class="btn btn-sm btn-warning">Редакция</a>
+                    <a asp-action="Delete" asp-route-id="@food.Id" class="btn btn-sm btn-danger">Изтрий</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

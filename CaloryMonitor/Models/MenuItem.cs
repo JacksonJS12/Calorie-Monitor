@@ -20,4 +20,7 @@ public class MenuItem
 
     [Range(1, 10000)]
     public double QuantityGrams { get; set; }
+
+    [Required(ErrorMessage = "Моля, изберете време на деня.")]
+    public string TimeOfTheDay { get; set; }
 }

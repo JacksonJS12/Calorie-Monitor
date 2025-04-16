@@ -1,9 +1,39 @@
 ﻿using CaloryMonitor.Data;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 public static class SeedData
 {
+    //Добавяме админ акаунта в базата данни
+    public static async Task SeedAdminUserAsync(IServiceProvider serviceProvider)
+    {
+        var userManager = serviceProvider.GetRequiredService<UserManager<IdentityUser>>();
+
+        string adminEmail = "admin@calorymonitor.bg";
+        string adminPassword = "admin123";
+
+        var existingAdmin = await userManager.FindByEmailAsync(adminEmail);
+
+        if (existingAdmin == null)
+        {
+            var adminUser = new IdentityUser
+            {
+                UserName = adminEmail,
+                Email = adminEmail,
+                EmailConfirmed = true
+            };
+
+            var result = await userManager.CreateAsync(adminUser, adminPassword);
+
+            if (!result.Succeeded)
+            {
+                throw new Exception("Грешка при създаване на админ: " + string.Join(", ", result.Errors.Select(e => e.Description)));
+            }
+        }
+    }
+    
+    //Добавяме храни в базата данни
     public static void Initialize(IServiceProvider serviceProvider)
     {
         using (var context = new ApplicationDbContext(
